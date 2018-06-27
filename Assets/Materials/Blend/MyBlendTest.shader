@@ -1,0 +1,60 @@
+﻿Shader "Holistic/MyBlendTest" {
+	Properties {
+		_Color ("Color", Color) = (1,1,1,1)
+		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+		_Glossiness ("Smoothness", Range(0,1)) = 0.5
+		_Metallic ("Metallic", Range(0,1)) = 0.0
+	}
+	SubShader {
+		Tags { "RenderType"="Transparent" }
+		// Incoming color * factor + Current color * factor
+		// Blend One One					// Multiply
+		 Blend Zero Zero
+		// Blend One Zero					// Opaque
+		// Blend Zero One					// As if invisible but shadow will not draw.
+		// Blend SrcAlpha OneMinusSrcAlpha	// Traditional transparency
+		// Blend SrcColor OneMinusSrcColor	// Black act as alpha but shadow will not draw.
+		// Blend OneMinusSrcColor SrcColor
+		// Blend DstColor OneMinusDstColor
+		// Blend OneMinusDstColor DstColor
+		// Blend Zero SrcColor				// 
+		// Blend SrcColor Zero				//
+		// Blend Zero DstColor				//
+		// Blend DstColor Zero				//
+		// Blend OneMinusSrcColor Zerot
+		// Blend Zero OneMinusSrcColor 
+		// Blend OneMinusDstColor Zero
+		// Blend Zero OneMinusDstColor
+
+		Pass {
+			SetTexture [_MainTex] { combine texture }
+		}
+
+		
+//		CGPROGRAM
+//
+//		#pragma surface surf Standard fullforwardshadows
+//
+//		sampler2D _MainTex;
+//
+//		struct Input {
+//			float2 uv_MainTex;
+//		};
+//
+//		half _Glossiness;
+//		half _Metallic;
+//		fixed4 _Color;
+//
+//		void surf (Input IN, inout SurfaceOutputStandard o) {
+//			// Albedo comes from a texture tinted by color
+//			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+//			o.Albedo = c.rgb;
+//			// Metallic and smoothness come from slider variables
+//			o.Metallic = _Metallic;
+//			o.Smoothness = _Glossiness;
+//			o.Alpha = c.a;
+//		}
+//		ENDCG
+	}
+	FallBack "Diffuse"
+}
